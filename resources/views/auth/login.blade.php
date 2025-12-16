@@ -1,90 +1,159 @@
 @extends('layouts.app')
 
 @section('content')
+
 <style>
     body {
-        background: linear-gradient(135deg, #3a7bd5, #3a6073);
-        background-size: cover;
+        background: linear-gradient(135deg, #0f172a, #020617);
         min-height: 100vh;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        overflow: hidden;
     }
 
+    /* Soft yellow glow */
+    .glow {
+        position: absolute;
+        width: 420px;
+        height: 420px;
+        background: radial-gradient(circle, rgba(250,204,21,0.35), transparent 70%);
+        filter: blur(100px);
+        animation: float 12s infinite alternate ease-in-out;
+    }
+
+    .glow.one { top: 15%; left: 12%; }
+    .glow.two { bottom: 12%; right: 15%; animation-delay: 3s; }
+
+    @keyframes float {
+        from { transform: translateY(0); }
+        to { transform: translateY(-40px); }
+    }
+
+    /* Card */
     .login-card {
-        backdrop-filter: blur(12px);
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        border: 1px solid rgba(255,255,255,0.15);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        animation: fadeUp .7s ease forwards;
     }
 
-    .login-card input {
-        border-radius: 12px;
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    .btn-modern {
-        border-radius: 12px;
-        padding: 10px;
-        font-weight: 600;
-        transition: 0.3s;
-    }
-
-    .btn-modern:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-    }
-
-    .header-text {
-        font-weight: 700;
+    /* Header */
+    .login-title {
+        font-weight: 800;
         letter-spacing: 1px;
+        color: #facc15;
+    }
+
+    .login-sub {
+        font-size: 13px;
+        color: #cbd5f5;
+    }
+
+    /* Input */
+    .form-control {
+        background: rgba(255,255,255,0.9);
+        border: none;
+        border-radius: 16px;
+        padding: 12px 14px;
+        transition: .25s;
+    }
+
+    .form-control:focus {
+        background: white;
+        box-shadow: 0 0 0 3px rgba(250,204,21,.45);
+    }
+
+    /* Button */
+    .btn-login {
+        background: linear-gradient(135deg, #facc15, #fde047);
+        border: none;
+        border-radius: 16px;
+        padding: 12px;
+        font-weight: 700;
+        color: #020617;
+        transition: .3s;
+    }
+
+    .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(250,204,21,.45);
+    }
+
+    /* Footer link */
+    .login-link {
+        color: #fde047;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .login-link:hover {
+        text-decoration: underline;
     }
 </style>
 
-<div class="row justify-content-center align-items-center min-vh-100">
-    <div class="col-md-4">
-        <div class="card login-card shadow-lg p-4">
-            <div class="text-center text-white mb-3">
-                <h3 class="header-text"><i class="bi bi-box-arrow-in-right"></i> Login</h3>
-                <small>Silakan masuk untuk melanjutkan</small>
+<!-- BACKGROUND GLOW -->
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+<div class="container min-vh-100 d-flex align-items-center justify-content-center position-relative">
+    <div class="col-md-4 col-sm-10">
+
+        <div class="login-card p-4 text-white">
+
+            <!-- HEADER -->
+            <div class="text-center mb-4">
+                <i class="bi bi-mortarboard-fill fs-1 text-warning"></i>
+                <h3 class="login-title mt-2">SPP SEKOLAH</h3>
+                <div class="login-sub">Sistem Pembayaran Pendidikan</div>
             </div>
 
-            <div class="card-body">
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
+            <!-- FORM -->
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
 
-                    <div class="mb-3">
-                        <label for="username" class="form-label text-white">Username</label>
-                        <input type="text" 
-                               name="username" 
-                               id="username" 
-                               class="form-control" 
-                               value="{{ old('username') }}" 
-                               required autofocus>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label text-white">Password</label>
-                        <input type="password" 
-                               name="password" 
-                               id="password" 
-                               class="form-control" 
-                               required>
-                    </div>
-
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-light btn-modern">
-                            Login
-                        </button>
-                    </div>
-                </form>
-
-                <hr class="text-white">
-
-                <div class="text-center text-white">
-                    <small>Belum punya akun? 
-                        <a href="{{ route('register') }}" class="text-white fw-bold">Daftar di sini</a>
-                    </small>
+                <div class="mb-3">
+                    <label class="form-label text-light">Username</label>
+                    <input type="text"
+                           name="username"
+                           class="form-control"
+                           placeholder="Masukkan username"
+                           value="{{ old('username') }}"
+                           required autofocus>
                 </div>
 
+                <div class="mb-4">
+                    <label class="form-label text-light">Password</label>
+                    <input type="password"
+                           name="password"
+                           class="form-control"
+                           placeholder="Masukkan password"
+                           required>
+                </div>
+
+                <div class="d-grid mb-3">
+                    <button class="btn btn-login">
+                        LOGIN
+                    </button>
+                </div>
+            </form>
+
+            <!-- FOOTER -->
+            <div class="text-center">
+                <small class="text-light">
+                    Belum punya akun?
+                    <a href="{{ route('register') }}" class="login-link">Daftar</a>
+                </small>
             </div>
+
         </div>
+
     </div>
 </div>
+
 @endsection

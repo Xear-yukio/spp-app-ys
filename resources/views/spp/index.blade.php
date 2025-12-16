@@ -3,52 +3,97 @@
 @section('content')
 
 <style>
-    /* Fade animation */
-    .fade-in {
-        animation: fadeIn .6s ease-in-out;
+    body {
+        background: #f4f7fb;
     }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
+
+    /* Animation */
+    .fade-up {
+        animation: fadeUp .6s ease forwards;
+        opacity: 0;
+    }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(18px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Modern card */
-    .modern-card {
-        border-radius: 18px;
+    /* Card */
+    .card-modern {
+        border-radius: 22px;
         border: none;
-        background: white;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        background: #fff;
+        box-shadow: 0 18px 40px rgba(0,0,0,.1);
+        overflow: hidden;
     }
 
-    .modern-card .card-header {
-        background: white;
-        border-bottom: none;
-        padding: 18px 20px;
-        border-radius: 18px 18px 0 0;
+    /* Header */
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
     }
 
-    /* Modern button */
-    .btn-primary-custom {
+    .page-header h2 {
+        font-weight: 700;
+        color: #111827;
+    }
+
+    /* Button */
+    .btn-add {
         background: linear-gradient(135deg, #3a7bd5, #00d2ff);
         border: none;
-        padding: 9px 16px;
-        border-radius: 10px;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-weight: 600;
         transition: .3s;
     }
 
-    .btn-primary-custom:hover {
-        background-position: right;
+    .btn-add:hover {
         transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0,210,255,.35);
+    }
+
+    /* Table */
+    .table-modern thead {
+        background: #f3f4f6;
+        font-size: 13px;
+        text-transform: uppercase;
+        color: #374151;
+    }
+
+    .table-modern th {
+        padding: 14px 16px;
+        border-bottom: 2px solid #e5e7eb;
+    }
+
+    .table-modern td {
+        padding: 16px;
+        border-bottom: 1px solid #f1f1f1;
+        color: #4b5563;
+        vertical-align: middle;
+    }
+
+    .table-modern tbody tr {
+        transition: .25s;
+    }
+
+    .table-modern tbody tr:hover {
+        background: #f0fdfa;
+        transform: scale(1.01);
     }
 
     /* Action buttons */
     .btn-action {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
         display: inline-flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
+        border: none;
         transition: .25s;
     }
 
@@ -56,97 +101,92 @@
         transform: translateY(-2px);
     }
 
-    .btn-edit { background: #facc15; color: white; }
-    .btn-edit:hover { background: #eab308; }
-
-    .btn-delete { background: #ef4444; color: white; }
-    .btn-delete:hover { background: #dc2626; }
-
-    /* Modern Table */
-    .modern-table thead {
-        background: #f3f4f6;
-        text-transform: uppercase;
-        font-size: 13px;
-        font-weight: 600;
-        color: #374151;
+    .btn-edit {
+        background: #facc15;
+        color: #fff;
     }
 
-    .modern-table thead th {
-        padding: 13px;
-        border-bottom: 2px solid #e5e7eb;
+    .btn-edit:hover {
+        background: #eab308;
     }
 
-    .modern-table tbody td {
-        padding: 14px 16px;
-        color: #4b5563;
-        border-bottom: 1px solid #f1f1f1;
+    .btn-delete {
+        background: #ef4444;
+        color: #fff;
     }
 
-    .modern-table tbody tr:hover {
-        background: #eefdfc !important;
-        transition: .25s;
-        transform: scale(1.01);
+    .btn-delete:hover {
+        background: #dc2626;
+    }
+
+    /* Empty */
+    .empty-state {
+        padding: 60px 0;
+        color: #9ca3af;
     }
 </style>
 
-<div class="d-flex justify-content-between align-items-center mb-4 fade-in">
-    <h2 class="fw-bold"><i class="bi bi-cash-stack"></i> Data SPP</h2>
+<!-- HEADER -->
+<div class="page-header fade-up">
+    <h2>
+        <i class="bi bi-cash-stack me-1"></i> Data SPP
+    </h2>
 
-    <a href="{{ route('spp.create') }}" class="btn btn-primary-custom text-white">
+    <a href="{{ route('spp.create') }}" class="btn btn-add">
         <i class="bi bi-plus-circle"></i> Tambah SPP
     </a>
 </div>
 
-<div class="card modern-card fade-in">
-    <div class="card-body p-0">
+<!-- CARD -->
+<div class="card-modern fade-up">
+    <div class="table-responsive">
+        <table class="table table-modern mb-0 align-middle">
+            <thead>
+                <tr>
+                    <th width="120">Tahun</th>
+                    <th>Nominal</th>
+                    <th width="150" class="text-center">Aksi</th>
+                </tr>
+            </thead>
 
-        <div class="table-responsive">
-            <table class="table modern-table mb-0">
-                <thead>
-                    <tr>
-                        <th>Tahun</th>
-                        <th>Nominal</th>
-                        <th class="text-center" width="150">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($spp as $s)
-                    <tr>
-                        <td class="fw-semibold">{{ $s->tahun }}</td>
-                        <td>Rp {{ number_format($s->nominal, 0, ',', '.') }}</td>
+            <tbody>
+                @forelse($spp as $s)
+                <tr>
+                    <td class="fw-semibold">{{ $s->tahun }}</td>
+                    <td>Rp {{ number_format($s->nominal, 0, ',', '.') }}</td>
 
-                        <td class="text-center">
+                    <td class="text-center">
+                        <a href="{{ route('spp.edit', $s) }}"
+                           class="btn-action btn-edit me-1"
+                           title="Edit">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
 
-                            {{-- tombol edit --}}
-                            <a href="{{ route('spp.edit', $s) }}" class="btn-action btn-edit me-1">
-                                <i class="bi bi-pencil-fill"></i>
-                            </a>
+                        <form action="{{ route('spp.destroy', $s) }}"
+                              method="POST"
+                              class="d-inline"
+                              onsubmit="return confirm('Yakin ingin menghapus data SPP ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                    class="btn-action btn-delete"
+                                    title="Hapus">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
 
-                            {{-- tombol delete --}}
-                            <form action="{{ route('spp.destroy', $s) }}" 
-                                method="POST" class="d-inline"
-                                onsubmit="return confirm('Yakin ingin menghapus data SPP ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn-action btn-delete">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </form>
-
-                        </td>
-                    </tr>
-
-                    @empty
-                    <tr>
-                        <td colspan="3" class="text-center text-muted py-4">
-                            Belum ada data SPP 📭
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
+                @empty
+                <tr>
+                    <td colspan="3" class="text-center empty-state">
+                        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                        Belum ada data SPP
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
 
