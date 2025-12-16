@@ -3,14 +3,12 @@
 @section('content')
 
 <style>
-    /* ================= BASE ================= */
     body {
         background: #f5f7fb;
         min-height: 100vh;
         font-family: 'Segoe UI', system-ui, sans-serif;
     }
 
-    /* ================= LOGIN WRAPPER ================= */
     .login-wrapper {
         min-height: 100vh;
         display: flex;
@@ -21,32 +19,34 @@
     /* ================= CARD ================= */
     .login-card {
         background: #ffffff;
-        border-radius: 22px;
-        padding: 36px 32px;
+        border-radius: 26px;
+        padding: 38px 34px;
         width: 100%;
         max-width: 420px;
-        box-shadow: 0 25px 50px rgba(0,0,0,.08);
+        box-shadow:
+            0 40px 80px rgba(15,23,42,.08),
+            0 10px 25px rgba(15,23,42,.05);
         animation: fadeUp .6s ease;
     }
 
     @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(25px); }
+        from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
     /* ================= HEADER ================= */
     .login-icon {
-        width: 64px;
-        height: 64px;
+        width: 68px;
+        height: 68px;
         background: linear-gradient(135deg, #2563eb, #7c3aed);
-        border-radius: 18px;
+        border-radius: 22px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
-        font-size: 28px;
-        margin: 0 auto 14px;
-        box-shadow: 0 15px 30px rgba(59,130,246,.35);
+        font-size: 30px;
+        margin: 0 auto 16px;
+        box-shadow: 0 20px 40px rgba(99,102,241,.35);
     }
 
     .login-title {
@@ -61,7 +61,7 @@
         text-align: center;
         font-size: 13px;
         color: #64748b;
-        margin-bottom: 28px;
+        margin-bottom: 30px;
     }
 
     /* ================= INPUT ================= */
@@ -69,35 +69,68 @@
         font-size: 13px;
         font-weight: 600;
         color: #475569;
+        margin-bottom: 6px;
     }
 
     .form-control {
-        border-radius: 14px;
-        padding: 12px 14px;
+        border-radius: 16px;
+        padding: 13px 15px;
         border: 1px solid #e2e8f0;
+        background: #f8fafc;
         transition: .25s;
     }
 
     .form-control:focus {
+        background: #ffffff;
         border-color: #6366f1;
-        box-shadow: 0 0 0 3px rgba(99,102,241,.25);
+        box-shadow: 0 0 0 4px rgba(99,102,241,.18);
     }
 
-    /* ================= BUTTON ================= */
+    /* ================= MODERN BUTTON ================= */
     .btn-login {
+        position: relative;
         background: linear-gradient(135deg, #2563eb, #7c3aed);
         border: none;
-        border-radius: 14px;
-        padding: 12px;
-        font-weight: 700;
+        border-radius: 18px;
+        padding: 14px;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: 1px;
         color: white;
-        letter-spacing: .5px;
-        transition: .3s;
+        overflow: hidden;
+        transition: .35s ease;
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.35),
+            0 18px 35px rgba(99,102,241,.45);
     }
 
+    /* glossy layer */
+    .btn-login::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            rgba(255,255,255,.35),
+            rgba(255,255,255,0)
+        );
+        opacity: .6;
+    }
+
+    /* hover */
     .btn-login:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 15px 30px rgba(99,102,241,.4);
+        transform: translateY(-3px);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.35),
+            0 25px 50px rgba(99,102,241,.55);
+    }
+
+    /* active (pressed) */
+    .btn-login:active {
+        transform: translateY(0);
+        box-shadow:
+            inset 0 4px 8px rgba(0,0,0,.25),
+            0 10px 20px rgba(99,102,241,.35);
     }
 
     /* ================= FOOTER ================= */
@@ -105,12 +138,12 @@
         text-align: center;
         font-size: 13px;
         color: #64748b;
-        margin-top: 22px;
+        margin-top: 24px;
     }
 
     .login-footer a {
         color: #4f46e5;
-        font-weight: 600;
+        font-weight: 700;
         text-decoration: none;
     }
 
@@ -127,7 +160,7 @@
             <i class="bi bi-mortarboard-fill"></i>
         </div>
 
-        <div class="login-title">SPP App</div>
+        <div class="login-title">SPP APP</div>
         <div class="login-sub">Sistem Pembayaran SPP Sekolah</div>
 
         <!-- FORM -->
