@@ -3,116 +3,164 @@
 @section('content')
 <style>
     body {
-        background: linear-gradient(135deg, #3a7bd5, #3a6073);
-        background-size: cover;
+        background: #f5f7fb;
         min-height: 100vh;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .register-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .register-card {
-        backdrop-filter: blur(12px);
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        width: 100%;
+        max-width: 420px;
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 35px;
+        color: #1f2937;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+        animation: fadeInUp 0.8s ease;
     }
 
-    .register-card input {
-        border-radius: 12px;
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .register-card h3 {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #1e293b;
+    }
+
+    .register-card small {
+        color: #64748b;
+    }
+
+    label {
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: #334155;
+    }
+
+    .form-control {
+        background: #f1f5f9;
+        border: 2px solid transparent;
+        border-radius: 14px;
+        color: #1e293b;
+        padding: 12px 16px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control::placeholder {
+        color: #94a3b8;
+    }
+
+    .form-control:focus {
+        background: #ffffff;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+        color: #1e293b;
     }
 
     .btn-modern {
-        border-radius: 12px;
-        padding: 10px;
+        background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        border: none;
+        border-radius: 16px;
+        padding: 12px;
         font-weight: 600;
-        transition: 0.3s;
+        color: #ffffff;
+        transition: all 0.3s ease;
     }
 
     .btn-modern:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        box-shadow: 0 12px 30px rgba(79,70,229,0.4);
     }
 
-    .header-text {
-        font-weight: 700;
-        letter-spacing: 1px;
+    .divider {
+        height: 1px;
+        background: #e2e8f0;
+        margin: 20px 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: #6366f1;
+    }
+
+    a:hover {
+        text-decoration: underline;
     }
 </style>
 
-<div class="row justify-content-center align-items-center min-vh-100">
-    <div class="col-md-4">
-        <div class="card register-card shadow-lg p-4">
-            <div class="text-center text-white mb-3">
-                <h3 class="header-text"><i class="bi bi-person-plus"></i> Register</h3>
-                <small>Silakan buat akun baru</small>
+<div class="register-wrapper">
+    <div class="register-card">
+        <div class="text-center mb-4">
+            <h3>Register</h3>
+            <small>Buat akun baru untuk melanjutkan</small>
+        </div>
+
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
+
+            <div class="mb-3">
+                <label>Nama Lengkap</label>
+                <input type="text" name="name" class="form-control"
+                    placeholder="Nama lengkap"
+                    value="{{ old('name') }}" required>
             </div>
 
-            <div class="card-body">
-                <form method="POST" action="{{ route('register') }}">
-                    @csrf
-
-                    <div class="mb-3">
-                        <label for="name" class="form-label text-white">Nama Lengkap</label>
-                        <input type="text" 
-                               name="name" 
-                               id="name" 
-                               class="form-control" 
-                               value="{{ old('name') }}" 
-                               required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="username" class="form-label text-white">Username</label>
-                        <input type="text" 
-                               name="username" 
-                               id="username" 
-                               class="form-control" 
-                               value="{{ old('username') }}" 
-                               required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label text-white">Email</label>
-                        <input type="email" 
-                               name="email" 
-                               id="email" 
-                               class="form-control" 
-                               value="{{ old('email') }}" 
-                               required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label text-white">Password</label>
-                        <input type="password" 
-                               name="password" 
-                               id="password" 
-                               class="form-control" 
-                               required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password_confirmation" class="form-label text-white">Konfirmasi Password</label>
-                        <input type="password" 
-                               name="password_confirmation" 
-                               id="password_confirmation" 
-                               class="form-control" 
-                               required>
-                    </div>
-
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-light btn-modern">
-                            Daftar
-                        </button>
-                    </div>
-                </form>
-
-                <hr class="text-white">
-
-                <div class="text-center text-white">
-                    <small>Sudah punya akun? 
-                        <a href="{{ route('login') }}" class="text-white fw-bold">Login di sini</a>
-                    </small>
-                </div>
-
+            <div class="mb-3">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control"
+                    placeholder="Username"
+                    value="{{ old('username') }}" required>
             </div>
+
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control"
+                    placeholder="email@example.com"
+                    value="{{ old('email') }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control"
+                    placeholder="********" required>
+            </div>
+
+            <div class="mb-4">
+                <label>Konfirmasi Password</label>
+                <input type="password" name="password_confirmation" class="form-control"
+                    placeholder="********" required>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-modern">
+                    Daftar Sekarang
+                </button>
+            </div>
+        </form>
+
+        <div class="divider"></div>
+
+        <div class="text-center">
+            <small>
+                Sudah punya akun?
+                <a href="{{ route('login') }}" class="fw-bold">Login di sini</a>
+            </small>
         </div>
     </div>
 </div>
