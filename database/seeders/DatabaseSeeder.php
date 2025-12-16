@@ -39,6 +39,14 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('petugas123')
         ]);
 
+        $petugas = User::create([
+            'name' => 'Petugas 2',
+            'username' => 'petugas2',
+            'email' => 'petugas23@spp.com',
+            'level' => 'petugas',
+            'password' => Hash::make('petugas321')
+        ]);
+
         // 2. Buat Kelas
         $kelas1 = Kelas::create(['nama_kelas' => 'X', 'jurusan' => 'IPA']);
         $kelas2 = Kelas::create(['nama_kelas' => 'XI', 'jurusan' => 'IPS']);
