@@ -129,7 +129,7 @@
                            name="jurusan"
                            class="form-control @error('jurusan') is-invalid @enderror"
                            value="{{ old('jurusan') }}"
-                           placeholder="Contoh: IPA, IPS, RPL"
+                           placeholder="Contoh: PPLG, TKJ, MPLB, PM, DKV"
                            required>
                     @error('jurusan')
                     <div class="invalid-feedback">{{ $message }}</div>
